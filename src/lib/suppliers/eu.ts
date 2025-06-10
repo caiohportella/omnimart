@@ -16,6 +16,18 @@ type EUEndpointRaw = {
 };
 
 export function normalizeEUProduct(item: EUEndpointRaw): Product {
+  if (!item || !item.id || !item.name || !item.price) {
+    throw new Error("Invalid product data");
+  }
+
+  if (typeof item.price !== "string" || isNaN(parseFloat(item.price))) {
+    throw new Error("Invalid price format");
+  }
+
+  if (typeof item.discountValue !== "string" || isNaN(parseFloat(item.discountValue))) {
+    throw new Error("Invalid discount value format");
+  }
+
   return {
     id: `EU-${item.id}`,
     name: item.name,

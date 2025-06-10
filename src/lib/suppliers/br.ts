@@ -13,6 +13,14 @@ type BRProductRaw = {
 };
 
 export function normalizeBRProduct(item: BRProductRaw): Product {
+    if (!item || !item.id || !item.nome || !item.preco) {
+    throw new Error("Dados do produto inválidos");
+  }
+
+  if (typeof item.preco !== "string" || isNaN(parseFloat(item.preco))) {
+    throw new Error("Formato de preço inválido");
+  }
+
   return {
     id: `BR-${item.id}`,
     name: item.nome,

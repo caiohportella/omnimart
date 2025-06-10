@@ -18,12 +18,14 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product }: ProductCardProps) {
-  const discountedPrice =
-    product.hasDiscount && product.discountValue
-      ? product.price - (product.price * product.discountValue) / 100
-      : product.price;
-
   const gallery = [product.imageUrl, ...(product.images || [])].filter(Boolean);
+
+  const showDiscount =
+    product.hasDiscount && product.discountValue && product.discountValue > 0;
+
+  const discountedPrice = showDiscount
+    ? product.price - (product.price * (product.discountValue ?? 0)) / 100
+    : product.price;
 
   return (
     <Link href={`/product/${product.id}`} className="group block">
@@ -58,7 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Seção de Preço */}
           <div className="mt-auto pt-4">
             <div className="flex flex-col mb-2">
-              {product.hasDiscount && product.discountValue ? (
+              {showDiscount ? (
                 <div className="flex justify-between items-baseline gap-2">
                   <div className="flex items-baseline gap-2">
                     <p className="text-sm text-gray-500 line-through dark:text-gray-400">
@@ -73,7 +75,7 @@ export function ProductCard({ product }: ProductCardProps) {
                   </Badge>
                 </div>
               ) : (
-                <p className="text-xl font-bold text-primary dark:text-primary-foreground">
+                <p className="text-xl font-bold text-primary dark:text-primary">
                   {formatCurrency(product.price)}
                 </p>
               )}
@@ -105,7 +107,7 @@ export function ProductCard({ product }: ProductCardProps) {
                   {product.adjective}
                 </span>
               )}
-              {product.hasDiscount && (
+              {showDiscount && (
                 <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full dark:bg-red-900 dark:text-red-200">
                   Oferta!
                 </span>
