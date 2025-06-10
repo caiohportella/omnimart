@@ -1,3 +1,4 @@
+// src/components/CartView.tsx
 "use client";
 
 import { useMemo } from "react";
@@ -25,14 +26,20 @@ interface CartViewProps {
 }
 
 export function CartView({ allProducts }: CartViewProps) {
-  const { cartItems, cartCount, totalPrice, clearCart } = useCart();
+  const {
+    cartItems,
+    cartCount,
+    totalPrice,
+    totalOriginalPrice,
+    totalDiscount,
+    clearCart,
+  } = useCart();
 
-  // Lógica para sugerir produtos
   const suggestedProducts = useMemo(() => {
     if (!allProducts) return [];
 
     const cartItemIds = new Set(cartItems.map((item) => item.id));
-    
+
     return allProducts.filter((p) => !cartItemIds.has(p.id)).slice(0, 12);
   }, [allProducts, cartItems]);
 
@@ -75,8 +82,20 @@ export function CartView({ allProducts }: CartViewProps) {
                 <span className="text-muted-foreground">
                   Subtotal ({cartCount} {cartCount > 1 ? "itens" : "item"})
                 </span>
-                <span>{formatCurrency(totalPrice)}</span>
+                <span>{formatCurrency(totalOriginalPrice)}</span>
               </div>
+
+              {totalDiscount > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="font-medium text-red-600 dark:text-red-400">
+                    Descontos
+                  </span>
+                  <span className="font-medium text-red-600 dark:text-red-400">
+                    -{formatCurrency(totalDiscount)}
+                  </span>
+                </div>
+              )}
+
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Frete</span>
                 <span className="font-medium text-primary">Grátis</span>
@@ -95,7 +114,6 @@ export function CartView({ allProducts }: CartViewProps) {
           </Card>
         </div>
       </div>
-      {/* O slider é renderizado aqui, com os produtos já filtrados */}
       <div className="my-16">
         <Separator className="mb-12" />
         <SimilarProducts products={suggestedProducts} />

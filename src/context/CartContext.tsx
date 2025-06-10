@@ -1,3 +1,4 @@
+// src/context/CartContext.tsx
 "use client";
 
 import {
@@ -6,6 +7,7 @@ import {
   useState,
   ReactNode,
   useCallback,
+  useMemo,
 } from "react";
 import { Product, CartItem } from "@/lib/types";
 import { getProductPricing } from "@/lib/utils";
@@ -18,6 +20,8 @@ interface CartContextType {
   clearCart: () => void;
   cartCount: number;
   totalPrice: number;
+  totalOriginalPrice: number;
+  totalDiscount: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -62,10 +66,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const cartCount = cartItems.reduce((count, item) => count + item.quantity, 0);
 
-  const totalPrice = cartItems.reduce((total, item) => {
-    const { discountedPrice } = getProductPricing(item);
-    return total + discountedPrice * item.quantity;
-  }, 0);
+  const { totalOriginalPrice, totalPrice } = useMemo(() => {
+    return cartItems.reduce(
+      (acc, item) => {
+        const { price, discountedPrice } = getProductPricing(item);
+        acc.totalOriginalPrice += price * item.quantity;
+        acc.totalPrice += discountedPrice * item.quantity;
+        return acc;
+      },
+      { totalOriginalPrice: 0, totalPrice: 0 }
+    );
+  }, [cartItems]);
+
+  const totalDiscount = totalOriginalPrice - totalPrice;
 
   const value = {
     cartItems,
@@ -75,6 +88,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     clearCart,
     cartCount,
     totalPrice,
+    totalOriginalPrice,
+    totalDiscount,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
