@@ -1,4 +1,4 @@
-// src/components/ProductDetail.tsx
+"use client";
 
 import { Product } from "@/lib/types";
 import { ShoppingCart } from "lucide-react";
@@ -6,17 +6,24 @@ import { Button } from "@/components/ui/button";
 import { ProductCardCarousel } from "@/components/ProductCardCarousel";
 import { FallbackImage } from "@/components/FallbackImage";
 import { ProductTag } from "./ProductTag";
-import { formatCurrency, getProductPricing } from "@/lib/utils"; // Importar as funções
+import { formatCurrency, getProductPricing } from "@/lib/utils";
+import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
 interface ProductDetailsProps {
   product: Product;
 }
 
 export function ProductDetails({ product }: ProductDetailsProps) {
-  const gallery = [product.imageUrl, ...(product.images || [])].filter(Boolean);
-
+  const { addToCart } = useCart();
   const { price, discountedPrice, showDiscount, discountPercentage } =
     getProductPricing(product);
+  const gallery = [product.imageUrl, ...(product.images || [])].filter(Boolean);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast.success(`${product.name} foi adicionado ao carrinho!`);
+  };
 
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
@@ -35,9 +42,8 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           )}
         </div>
       </div>
-
-      <div className="flex flex-col gap-8 lg:col-span-3">
-        <div className="space-y-6">
+      <div className="flex flex-col gap-6 lg:col-span-3">
+        <div className="space-y-2">
           <div className="flex justify-between items-start gap-4">
             <h1 className="text-2xl md:text-3xl font-bold leading-tight">
               {product.name}
@@ -50,8 +56,6 @@ export function ProductDetails({ product }: ProductDetailsProps) {
             </p>
           )}
         </div>
-
-        {/* Preços */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           {showDiscount ? (
             <div className="flex items-baseline gap-3">
@@ -74,20 +78,17 @@ export function ProductDetails({ product }: ProductDetailsProps) {
             />
           )}
         </div>
-
-        <div className="pt-2">
-          <Button size="lg" className="w-full">
+        <div>
+          <Button size="lg" className="w-full cursor-pointer" onClick={handleAddToCart}>
             <ShoppingCart className="mr-2 h-5 w-5" />
             Adicionar ao Carrinho
           </Button>
         </div>
-
-        {/* Tags */}
         {(product.category ||
           product.department ||
           product.material ||
           product.adjective) && (
-          <div className="flex flex-col gap-3 pt-7 border-t">
+          <div className="flex flex-col gap-3 pt-6 border-t">
             <h3 className="font-semibold text-lg">Tags</h3>
             <div className="flex flex-row flex-wrap gap-2">
               {product.category && (

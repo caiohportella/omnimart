@@ -4,7 +4,7 @@ import { Product } from "@/lib/types";
 import { ProductCard } from "./ProductCard";
 import useEmblaCarousel from "embla-carousel-react";
 import { PrevButton, NextButton } from "./CarouselControls";
-import { usePrevNextButtons } from "@/lib/hooks/carouselHooks";
+import { usePrevNextButtons } from "@/lib/hooks/useCarouselHooks";
 
 interface SimilarProductsProps {
   products: Product[];

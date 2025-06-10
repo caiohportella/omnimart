@@ -1,7 +1,7 @@
 'use client';
 
 import useEmblaCarousel from 'embla-carousel-react';
-import { useDotButton, usePrevNextButtons } from '@/lib/hooks/carouselHooks';
+import { useDotButton, usePrevNextButtons } from '@/lib/hooks/useCarouselHooks';
 import { DotButton, NextButton, PrevButton } from './CarouselControls';
 import { FallbackImage } from './FallbackImage';
 

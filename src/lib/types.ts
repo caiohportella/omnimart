@@ -23,3 +23,7 @@ export type ProductFilter = {
   searchTerm?: string;
   onSale?: boolean;
 };
+
+export interface CartItem extends Product {
+  quantity: number;
+}
