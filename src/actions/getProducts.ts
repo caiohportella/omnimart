@@ -61,3 +61,10 @@ export async function getAllProducts(): Promise<Product[]> {
   const products = await getProducts();
   return products;
 }
+
+export async function getProductById(
+  id: string
+): Promise<Product | undefined> {
+  const allProducts = await getAllProducts();
+  return allProducts.find((product) => product.id === id);
+}

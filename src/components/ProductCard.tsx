@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/types";
 import {
@@ -8,10 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/utils";
 import { Badge } from "./ui/badge";
 import { ProductCardCarousel } from "./ProductCardCarousel";
 import { FallbackImage } from "./FallbackImage";
+import { ProductTag } from "./ProductTag";
+import { formatCurrency, getProductPricing } from "@/lib/utils"; // Importar as funções
 
 type ProductCardProps = {
   product: Product;
@@ -20,16 +20,13 @@ type ProductCardProps = {
 export function ProductCard({ product }: ProductCardProps) {
   const gallery = [product.imageUrl, ...(product.images || [])].filter(Boolean);
 
-  const showDiscount =
-    product.hasDiscount && product.discountValue && product.discountValue > 0;
-
-  const discountedPrice = showDiscount
-    ? product.price - (product.price * (product.discountValue ?? 0)) / 100
-    : product.price;
+  const { price, discountedPrice, showDiscount, discountPercentage } =
+    getProductPricing(product);
 
   return (
-    <Link href={`/product/${product.id}`} className="group block">
+    <Link href={`/product/${product.id}`} className="group block h-full">
       <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-300 p-3 gap-3">
+        {/* Imagem // Galeria */}
         <CardHeader className="p-0 flex-shrink-0">
           <div className="relative aspect-square rounded-md overflow-hidden">
             {gallery.length > 1 ? (
@@ -42,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 src={gallery[0] || "https://loremflickr.com/640/480/animals"}
                 alt={product.name}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             )}
@@ -50,67 +47,51 @@ export function ProductCard({ product }: ProductCardProps) {
         </CardHeader>
 
         <CardContent className="p-2 flex flex-col flex-grow h-full">
-          <CardTitle className="text-lg font-semibold mb-2 line-clamp-2">
+          <CardTitle className="text-base font-semibold mb-2 line-clamp-2">
             {product.name}
           </CardTitle>
-          <CardDescription className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-2">
+          <CardDescription className="text-sm text-muted-foreground line-clamp-3 mb-2 flex-grow">
             {product.description}
           </CardDescription>
-
-          {/* Seção de Preço */}
+          
+          {/* Preços */}
           <div className="mt-auto pt-4">
-            <div className="flex flex-col mb-2">
+            <div className="flex flex-col mb-4">
               {showDiscount ? (
                 <div className="flex justify-between items-baseline gap-2">
                   <div className="flex items-baseline gap-2">
                     <p className="text-sm text-gray-500 line-through dark:text-gray-400">
-                      {formatCurrency(product.price)}
+                      {formatCurrency(price)}
                     </p>
-                    <p className="text-xl font-bold text-red-600 dark:text-red-400">
+                    <p className="text-lg font-bold text-red-600 dark:text-red-400">
                       {formatCurrency(discountedPrice)}
                     </p>
                   </div>
-                  <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                    {product.discountValue}% OFF
-                  </Badge>
+                  <Badge variant="destructive">{discountPercentage}% OFF</Badge>
                 </div>
               ) : (
-                <p className="text-xl font-bold text-primary dark:text-primary">
-                  {formatCurrency(product.price)}
+                <p className="text-lg font-bold text-foreground">
+                  {formatCurrency(price)}
                 </p>
               )}
             </div>
-            {/* Tags */}
-            <div className="flex flex-row flex-wrap gap-2 pt-2">
+
+            {/* Seção de Tags */}
+            <div className="flex flex-row flex-wrap gap-1">
               {product.category && (
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full dark:bg-blue-900 dark:text-blue-200">
-                  {product.category}
-                </span>
+                <ProductTag tagType="category" label={product.category} />
               )}
               {product.department && (
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full dark:bg-green-900 dark:text-green-200">
-                  {product.department}
-                </span>
+                <ProductTag tagType="department" label={product.department} />
               )}
               {product.source && (
-                <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full dark:bg-purple-900 dark:text-purple-200">
-                  Origem: {product.source}
-                </span>
+                <ProductTag tagType="source" label={product.source} />
               )}
               {product.material && (
-                <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full dark:bg-yellow-900 dark:text-yellow-200">
-                  {product.material}
-                </span>
+                <ProductTag tagType="material" label={product.material} />
               )}
               {product.adjective && (
-                <span className="px-2 py-1 bg-green-100 text-gray-800 text-xs font-medium rounded-full dark:bg-blue-900 dark:text-gray-200">
-                  {product.adjective}
-                </span>
-              )}
-              {showDiscount && (
-                <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full dark:bg-red-900 dark:text-red-200">
-                  Oferta!
-                </span>
+                <ProductTag tagType="adjective" label={product.adjective} />
               )}
             </div>
           </div>
