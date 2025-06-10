@@ -5,26 +5,54 @@ import { normalizeBRProduct } from "@/lib/suppliers/br";
 import { normalizeEUProduct } from "@/lib/suppliers/eu";
 import { Product } from "@/lib/types";
 
-export async function getProducts(): Promise<Product[]> {
+async function getProducts(): Promise<Product[]> {
   try {
     const [brRes, euRes] = await Promise.allSettled([
-      fetch(SUPPLIER_BR.ENDPOINT, { cache: "no-store" }),
-      fetch(SUPPLIER_EU.ENDPOINT, { cache: "no-store" }),
+      fetch(SUPPLIER_BR.ENDPOINT, { next: { revalidate: 3600 } }), // Revalida a cada hora
+      fetch(SUPPLIER_EU.ENDPOINT, { next: { revalidate: 3600 } }),
     ]);
 
-    const brProducts: Product[] =
-      brRes.status === "fulfilled"
-        ? (await brRes.value.json()).map(normalizeBRProduct)
-        : [];
+    const products: Product[] = [];
 
-    const euProducts: Product[] =
-      euRes.status === "fulfilled"
-        ? (await euRes.value.json()).map(normalizeEUProduct)
-        : [];
+    // Processa produtos do fornecedor BR
+    if (brRes.status === "fulfilled") {
+      const rawBrProducts = await brRes.value.json();
+      for (const item of rawBrProducts) {
+        try {
+          // Tenta normalizar cada produto individualmente
+          const normalized = normalizeBRProduct(item);
+          products.push(normalized);
+        } catch (error) {
+          // Se falhar, registra o erro e continua para o próximo
+          console.error("Produto BR inválido foi pulado:", {
+            product: item,
+            error,
+          });
+        }
+      }
+    }
 
-    return [...brProducts, ...euProducts];
+    // Processa produtos do fornecedor EU
+    if (euRes.status === "fulfilled") {
+      const rawEuProducts = await euRes.value.json();
+      for (const item of rawEuProducts) {
+        try {
+          // Tenta normalizar cada produto individualmente
+          const normalized = normalizeEUProduct(item);
+          products.push(normalized);
+        } catch (error) {
+          // Se falhar, registra o erro e continua para o próximo
+          console.error("Produto EU inválido foi pulado:", {
+            product: item,
+            error,
+          });
+        }
+      }
+    }
+
+    return products;
   } catch (error) {
-    console.error("Erro ao buscar produtos:", error);
+    console.error("Erro geral ao buscar produtos:", error);
     return [];
   }
 }
