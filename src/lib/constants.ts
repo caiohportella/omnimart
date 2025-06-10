@@ -9,3 +9,5 @@ export const SUPPLIER_EU = {
 };
 
 export const PRODUCTS_PER_PAGE = 12;
+
+export const FALLBACK_IMAGE_URL = 'https://loremflickr.com/640/480/animals';

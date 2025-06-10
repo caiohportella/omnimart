@@ -16,7 +16,6 @@ type DotButtonPropType = ComponentPropsWithoutRef<"button">;
 
 /**
  * Componente para o botão "Dot" de navegação.
- * É um botão simples cuja aparência é definida pelo componente pai.
  */
 export const DotButton: React.FC<DotButtonPropType> = (props) => {
   const { className, ...restProps } = props;
