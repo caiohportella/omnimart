@@ -1,3 +1,5 @@
+import { OrderInput } from "@shared/schemas/order";
+
 export type BRProductAPI = {
   id: string;
   nome: string;
@@ -21,3 +23,9 @@ export type EUProductAPI = {
   hasDiscount: boolean;
   discountValue: string;
 };
+
+export interface Order extends OrderInput {
+  id: string;
+  total: number;
+  createdAt: string;
+}

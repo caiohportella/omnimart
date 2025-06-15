@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { SERVER_ADDR } from "packages/shared/constants";
 
 type CreateOrderInput = {
-  customerName: string;
   items: { productId: string; quantity: number }[];
 };
 

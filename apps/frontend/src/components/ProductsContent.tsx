@@ -1,13 +1,14 @@
 "use client";
 
-import { Product, ProductFilter } from "packages/shared/types/domain";
 import React from "react";
+
+import { Product, ProductFilter } from "packages/shared/types/domain";
 
 import { useState, useMemo, useCallback } from "react";
 import { SidebarFilters } from "./SidebarFilters";
 import { PaginationControls } from "./PaginationControls";
 import { ProductCard } from "./ProductCard";
-
+import { SidebarFiltersSkeleton } from "./SidebarFiltersSkeleton";
 
 type ProductsContentProps = {
   allProducts: Product[];
@@ -71,6 +72,7 @@ export function ProductsContent({
         onFilter={handleFilterChange}
         isMobileView={false}
       />
+
       <main className="flex-1 p-4 md:p-6">
         <div className="flex justify-end mb-4 md:hidden">
           <SidebarFilters

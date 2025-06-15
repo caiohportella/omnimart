@@ -6,21 +6,22 @@ import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 
-
-
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { Product } from "packages/shared/types/domain";
 import { createOrderAction } from "../actions/cartActions";
 import { Button } from "./ui/button";
 import { CartItemCard } from "./CartItemCard";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 import { formatCurrency } from "../lib/utils";
 import { Separator } from "@radix-ui/react-select";
 import { SimilarProducts } from "./SimilarProducts";
-
-
-
 
 interface CartViewProps {
   allProducts: Product[];
@@ -37,6 +38,7 @@ export function CartView({ allProducts }: CartViewProps) {
   } = useCart();
 
   const [isPending, startTransition] = useTransition();
+
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
@@ -46,7 +48,6 @@ export function CartView({ allProducts }: CartViewProps) {
     startTransition(async () => {
       try {
         const order = await createOrderAction({
-          customerName: "João Silva", // Pode ser dinâmico vindo de um input futuramente
           items: cartItems.map((item) => ({
             productId: item.id,
             quantity: item.quantity,

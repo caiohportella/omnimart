@@ -1,100 +1,100 @@
 
-# 🛍️ Omnimart — Fullstack E-commerce Monolito
+# 🛍️ Omnimart — Monorepo E-commerce Full Stack
 
-Este é um projeto fullstack de e-commerce desenvolvido como parte de um teste técnico para a empresa Devnology. O projeto é um **monolito** contendo:
+Omnimart é uma aplicação full stack simulando um e-commerce moderno, desenvolvido com as tecnologias mais recentes do ecossistema JavaScript/TypeScript. O projeto é estruturado como um monorepo contendo **frontend**, **backend** e um pacote **shared** que compartilha tipos, schemas e constantes entre eles.
 
-- 🧠 **Frontend:** Next.js 14, React 19, TailwindCSS 4, TypeScript 5
-- 🔗 **Backend:** Node.js + Express + TypeScript
-
-## 🗂️ Estrutura do projeto:
+## 📦 Arquitetura do Projeto
 
 ```
 omnimart/
-├── frontend/   → Aplicação web (Next.js)
-├── backend/    → API (Node.js + Express)
-├── README.md   → Este arquivo
-└── .gitignore
+├── apps/
+│   ├── backend/      # Backend em Node + Express
+│   └── frontend/     # Frontend em Next.js App Router
+├── packages/
+│   └── shared/       # Tipos, utils e schemas compartilhados
+└── data/             # Dados mockados (produtos, pedidos)
 ```
 
-## 🚀 Rodando o projeto localmente
+- **apps/frontend:** Aplicação em Next.js 15 App Router com React Server Components, TailwindCSS e TypeScript.
+- **apps/backend:** API em Node.js com Express, manipulando os dados em arquivos JSON mockados.
+- **packages/shared:** Contém todos os tipos TypeScript, normalizadores, constantes e validações zod, compartilhados entre frontend e backend.
 
-### 📦 Pré-requisitos:
-- Node.js >= 18.17
-- NPM >= 9 ou Yarn/Pnpm (opcional)
+## 🚀 Tecnologias
 
-### 🔥 1. Clonar o projeto
+- Next.js 15 (App Router, React Server Components, Server Actions)
+- React 19
+- TailwindCSS 4.1
+- TypeScript 5.8
+- Express 4
+- Zod (validações)
+- pnpm workspaces (monorepo)
 
-```bash
-git clone https://github.com/caiohportella/omnimart.git
-cd omnimart
+## 🔗 API Routes
+
+### Produtos
+
+| Verbo | Endpoint       | Descrição                |
+|-------|----------------|--------------------------|
+| GET   | `/products`    | Lista todos os produtos  |
+| GET   | `/products/:id`| Busca produto específico |
+
+### Pedidos
+
+| Verbo | Endpoint       | Descrição                |
+|-------|----------------|--------------------------|
+| GET   | `/orders`      | Lista todos os pedidos   |
+| POST  | `/orders`      | Cria novo pedido         |
+
+### Filtros
+
+| Verbo | Endpoint       | Descrição                          |
+|-------|----------------|------------------------------------|
+| GET   | `/filters`     | Lista filtros (categoria, origem) |
+
+## 🏗️ Como rodar o projeto
+
+### Pré-requisitos
+
+- Node.js >= 18
+- pnpm >= 8
+
+### Passos
+
+1. **Instalar dependências:**
+
+```
+pnpm install
 ```
 
-### 💻 2. Rodar o frontend (Next.js)
+2. **Rodar o backend:**
 
-```bash
-cd frontend
-npm install
-npm run dev
+```
+pnpm --filter backend dev
 ```
 
-Acesse 👉 http://localhost:3000
+Servidor rodará em: [http://localhost:3333](http://localhost:3333)
 
-### 🔗 3. Rodar o backend (Node.js + Express)
+3. **Rodar o frontend:**
 
-```bash
-cd backend
-npm install
-npm run dev
+```
+pnpm --filter frontend dev
 ```
 
-API acessível em 👉 http://localhost:3333
+App rodará em: [http://localhost:3000](http://localhost:3000)
 
-## 🌐 Endpoints da API:
+## 🎯 Decisões Técnicas
 
-| Método | Rota            | Descrição                                |
-|--------|------------------|------------------------------------------|
-| GET    | `/products`      | Lista todos os produtos (BR + EU)       |
-| GET    | `/products/:id`  | Detalhes de um produto específico       |
-| POST   | `/orders`        | Cria um pedido (persistência local)     |
-| GET    | `/orders`        | Lista todos os pedidos realizados       |
+- Utilização de monorepo para compartilhar tipos e validações entre backend e frontend, garantindo consistência.
+- Backend simples em Express com manipulação de JSON para simular uma API real.
+- Frontend com Next.js App Router e React Server Components para melhor performance e DX moderna.
+- Utilização de Server Actions, Suspense e otimização automática do Next.js 15.
+- Sistema de cache de imagens com Next.js Image remoto (com fallback).
+- Skeleton Loaders implementados para carregamento UX-friendly.
+- Carregamento e persistência de carrinho no localStorage.
+- Integração entre frontend e backend 100% tipada via shared package.
 
-## ⚙️ Tecnologias utilizadas
+## 📄 Licença
 
-### 🧠 Frontend:
-- Next.js 14 (App Router, Server Actions, Partial Prerendering)
-- React 19 (Server Components, useOptimistic, useActionState)
-- TailwindCSS 4 (Container Queries, CSS-first config)
-- TypeScript 5 (Decorators, melhorias de tipos)
+Este projeto é apenas educacional.
 
-### 🔗 Backend:
-- Node.js + Express
-- TypeScript
-- Persistência local via arquivo JSON (`data/orders.json`)
-- Integração com APIs externas de fornecedores
-
-## 🛡️ Decisões técnicas
-- Projeto como monolito para facilitar deploy e desenvolvimento local.
-- Backend desacoplado do frontend, porém no mesmo repositório.
-- Backend simples, robusto e performático, com validações e tratamento de erros.
-- Frontend aproveita o que há de mais moderno no ecossistema React + Next.
-
-## 💡 Rodando ambos juntos (opcional):
-
-Em dois terminais separados:
-
-```bash
-cd frontend && npm run dev
-```
-
-```bash
-cd backend && npm run dev
-```
-
-Ou use ferramentas como Docker ou PM2 futuramente.
-
-## 🧠 Futuras melhorias (sugestões):
-- 📦 Deploy via Vercel (frontend) e Railway/Render (backend).
-- 🏗️ Docker Compose para rodar ambos juntos.
-- 🗄️ Banco de dados real (SQLite, PostgreSQL, etc.).
-- 🔐 Autenticação de usuários.
-- 📈 Testes automatizados (Jest, Vitest).
+## 👨‍💻 Feito com 💙 por [Seu Nome]

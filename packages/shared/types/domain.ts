@@ -36,9 +36,24 @@ export interface CartItem extends Product {
   quantity: number;
 }
 
+// Filtros laterais
 export type SidebarFiltersProps = {
   categories: string[];
   departments: string[];
   onFilter: (filter: ProductFilter) => void;
   isMobileView?: boolean;
 };
+
+// Pedido
+export interface Order {
+  id: string;
+  createdAt: string;
+  total: number;
+  items: Array<{
+    productId: string;
+    quantity: number;
+    name: string;
+    price: number;
+    imageUrl: string;
+  }>;
+}

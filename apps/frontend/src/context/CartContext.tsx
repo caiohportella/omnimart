@@ -2,8 +2,7 @@
 
 import { FALLBACK_IMAGE_URL } from "packages/shared/constants";
 import { CartItem, Product } from "packages/shared/types/domain";
-import React from "react";
-
+import React, { useEffect } from "react";
 
 import {
   createContext,
@@ -14,8 +13,6 @@ import {
   useMemo,
 } from "react";
 import { getProductPricing } from "../lib/utils";
-
-
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -34,6 +31,19 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
+  // Carrega o carrinho do localStorage quando monta
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+  }, []);
+
+  // Salva no localStorage sempre que muda
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const addToCart = useCallback((product: Product) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
@@ -49,7 +59,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         {
           ...product,
           quantity: 1,
-          imageUrl: product.imageUrl || product.gallery?.[0] || FALLBACK_IMAGE_URL,
+          imageUrl:
+            product.imageUrl || product.gallery?.[0] || FALLBACK_IMAGE_URL,
         },
       ];
     });

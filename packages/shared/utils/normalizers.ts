@@ -8,8 +8,8 @@ export function normalizeBRProduct(items: BRProductAPI[]): Product[] {
     name: item.nome,
     description: item.descricao,
     price: parseFloat(item.preco),
-    imageUrl: item.imagem || FALLBACK_IMAGE_URL,
-    gallery: [item.imagem || FALLBACK_IMAGE_URL],
+    imageUrl: item.imagem,
+    gallery: [item.imagem],
     source: "BR",
     category: item.categoria,
     department: item.departamento,
@@ -26,14 +26,17 @@ export function normalizeEUProduct(items: EUProductAPI[]): Product[] {
     name: item.name,
     description: item.description,
     price: parseFloat(item.price),
-    imageUrl: (item.gallery && item.gallery[0]) || FALLBACK_IMAGE_URL,
-    gallery: item.gallery.length > 0 ? item.gallery : [FALLBACK_IMAGE_URL],
+    imageUrl: item.gallery[0] || FALLBACK_IMAGE_URL,
+    gallery:
+      Array.isArray(item.gallery) && item.gallery.length > 0
+        ? item.gallery
+        : [FALLBACK_IMAGE_URL],
     source: "EU",
     category: undefined,
     department: undefined,
     material: item.details?.material,
     adjective: item.details?.adjective,
-    hasDiscount: item.hasDiscount ?? false,
-    discountValue: item.discountValue ? parseFloat(item.discountValue) : 0,
+    hasDiscount: item.hasDiscount,
+    discountValue: parseFloat(item.discountValue),
   }));
 }

@@ -87,7 +87,6 @@ export function PaginationControls({
                 ? "pointer-events-none opacity-50"
                 : "cursor-pointer"
             }
-            size={undefined}
           />
         </PaginationItem>
 
@@ -98,7 +97,6 @@ export function PaginationControls({
                 onClick={() => onPageChange(page)}
                 isActive={currentPage === page}
                 className="cursor-pointer"
-                size={undefined}
               >
                 {page}
               </PaginationLink>
@@ -116,7 +114,6 @@ export function PaginationControls({
                 ? "pointer-events-none opacity-50"
                 : "cursor-pointer"
             }
-            size={undefined}
           />
         </PaginationItem>
       </PaginationContent>

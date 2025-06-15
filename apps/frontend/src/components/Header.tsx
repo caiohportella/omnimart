@@ -3,7 +3,7 @@
 import React from "react";
 
 import Link from "next/link";
-import { Newspaper, ShoppingCart } from "lucide-react";
+import { ShoppingBag, ShoppingCart } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 import { Button } from "./ui/button";
@@ -41,7 +41,7 @@ export function Header() {
           {/* Botão de Pedidos */}
           <Button asChild variant="ghost" className="px-2 md:px-3">
             <Link href="/orders" className="flex items-center gap-2">
-              <Newspaper className="h-5 w-5" />
+              <ShoppingBag className="h-5 w-5" />
               <span className="hidden md:inline">Pedidos</span>
             </Link>
           </Button>

@@ -1,32 +1,12 @@
 import fs from "fs/promises";
 import path from "path";
-import { z } from "zod";
+import { OrderSchema, OrderInput } from "@shared/schemas/order";
 import { getAllProducts } from "../services/productsService";
+import { Order } from "@shared/types/domain";
 
-// Schema do pedido de entrada
-const OrderSchema = z.object({
-  customerName: z.string(),
-  items: z
-    .array(
-      z.object({
-        productId: z.string(),
-        quantity: z.number().min(1),
-      })
-    )
-    .min(1, "Pedido deve ter pelo menos 1 item"),
-});
+const dataFilePath = path.join(__dirname, "../../../", "orders.json");
 
-export type OrderInput = z.infer<typeof OrderSchema>;
-
-export interface Order extends OrderInput {
-  id: string;
-  total: number;
-  createdAt: string;
-}
-
-const dataFilePath = path.join(__dirname, "../../data/orders.json");
-
-// 🔧 Ler arquivo JSON
+// Ler arquivo JSON
 async function readOrdersFile(): Promise<Order[]> {
   try {
     const data = await fs.readFile(dataFilePath, "utf-8");
@@ -39,17 +19,17 @@ async function readOrdersFile(): Promise<Order[]> {
   }
 }
 
-// 💾 Salvar arquivo JSON
+// Salvar arquivo JSON
 async function saveOrdersFile(orders: Order[]): Promise<void> {
-  await fs.writeFile(dataFilePath, JSON.stringify(orders, null, 2));
+  await fs.writeFile(dataFilePath, JSON.stringify(orders, null, 2), "utf-8");
 }
 
-// 🔍 Listar todos os pedidos
+// Listar todos os pedidos
 export async function getAllOrders(): Promise<Order[]> {
   return await readOrdersFile();
 }
 
-// 🚀 Criar um novo pedido com validação e cálculo do total
+// Criar um novo pedido com validação e cálculo do total
 export async function createOrder(orderData: OrderInput): Promise<Order> {
   const parsed = OrderSchema.parse(orderData);
 
@@ -58,33 +38,41 @@ export async function createOrder(orderData: OrderInput): Promise<Order> {
 
   let total = 0;
 
-  // Valida cada item e calcula total
-  for (const item of parsed.items) {
+  const enrichedItems = parsed.items.map((item) => {
     const product = productMap.get(item.productId);
     if (!product) {
-      console.error(`❌ Produto não encontrado: ${item.productId}`);
       throw new Error(`Produto não encontrado: ${item.productId}`);
     }
-    total += product.price * item.quantity;
-  }
+
+    const subtotal = product.price * item.quantity;
+    total += subtotal;
+
+    return {
+      productId: item.productId,
+      quantity: item.quantity,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+    };
+  });
 
   const newOrder: Order = {
-    ...parsed,
     id: generateId(),
     total: parseFloat(total.toFixed(2)),
     createdAt: new Date().toISOString(),
+    items: enrichedItems,
   };
 
   const orders = await readOrdersFile();
   orders.push(newOrder);
   await saveOrdersFile(orders);
 
-  console.log(`✅ Pedido criado: ${newOrder.id} (${parsed.customerName})`);
+  console.log(`✅ Pedido criado: ${newOrder.id}`);
 
   return newOrder;
 }
 
-// 🔑 Gerar ID único simples
+// Gerar ID único simples
 function generateId(): string {
   return Math.random().toString(36).substring(2, 10);
 }

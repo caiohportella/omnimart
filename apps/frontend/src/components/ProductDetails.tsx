@@ -15,6 +15,7 @@ import {
 import { ProductCardCarousel } from "./ProductCardCarousel";
 import { FallbackImage } from "./FallbackImage";
 import { Button } from "./ui/button";
+import { SimilarProducts } from "./SimilarProducts";
 
 interface ProductDetailsProps {
   product: Product;
@@ -24,32 +25,39 @@ export function ProductDetails({ product }: ProductDetailsProps) {
   const { addToCart } = useCart();
   const { price, discountedPrice, showDiscount, discountPercentage } =
     getProductPricing(product);
-  const gallery = [product.imageUrl, ...(product.gallery || [])].filter(
-    Boolean
-  );
+  const gallery =
+    product.gallery.length > 0 ? product.gallery : [product.imageUrl];
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart({ ...product });
     toast.success(`${product.name} foi adicionado ao carrinho!`);
   };
 
+  const hasTags =
+    !!product.category ||
+    !!product.department ||
+    !!product.material ||
+    !!product.adjective;
+
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+      {/* Images */}
       <div className="lg:col-span-2">
         <div className="relative aspect-square rounded-lg overflow-hidden md:sticky md:top-24 h-fit">
           {gallery.length > 1 ? (
             <ProductCardCarousel gallery={gallery} productName={product.name} />
           ) : (
             <FallbackImage
-              src={gallery[0] || "https://loremflickr.com/640/480/animals"}
+              src={gallery[0]}
               alt={product.name}
               fill
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 40vw"
             />
           )}
         </div>
       </div>
+
+      {/* Info */}
       <div className="flex flex-col gap-6 lg:col-span-3">
         <div className="space-y-2">
           <div className="flex justify-between items-start gap-4">
@@ -64,6 +72,8 @@ export function ProductDetails({ product }: ProductDetailsProps) {
             </p>
           )}
         </div>
+
+        {/* Price */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           {showDiscount ? (
             <div className="flex items-baseline gap-3">
@@ -79,6 +89,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
               {formatCurrency(price)}
             </p>
           )}
+
           {showDiscount && (
             <ProductTag
               tagType="discount"
@@ -86,6 +97,8 @@ export function ProductDetails({ product }: ProductDetailsProps) {
             />
           )}
         </div>
+
+        {/* Button */}
         <div>
           <Button
             size="lg"
@@ -96,10 +109,9 @@ export function ProductDetails({ product }: ProductDetailsProps) {
             Adicionar ao Carrinho
           </Button>
         </div>
-        {(product.category ||
-          product.department ||
-          product.material ||
-          product.adjective) && (
+
+        {/* Tags */}
+        {hasTags && (
           <div className="flex flex-col gap-3 pt-6 border-t">
             <h3 className="font-semibold text-lg">Tags</h3>
             <div className="flex flex-row flex-wrap gap-2">

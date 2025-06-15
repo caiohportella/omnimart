@@ -3,7 +3,7 @@ import { getAvailableFilters } from "../services/filtersService";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", async (_req: Request, res: Response) => {
   try {
     const filters = await getAvailableFilters();
     res.json(filters);

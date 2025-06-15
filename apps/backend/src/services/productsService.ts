@@ -36,32 +36,7 @@ export async function getAllProducts(): Promise<Product[]> {
   if (euProducts.status === "fulfilled") {
     const euData = normalizeEUProduct(euProducts.value);
 
-    products.push(
-      ...euData.map((item: any) => ({
-        id: `${item.id}`,
-        name: item.name,
-        description: item.description || "",
-        price: parseFloat(item.price),
-        imageUrl:
-          (Array.isArray(item.gallery) && item.gallery[0]) ||
-          FALLBACK_IMAGE_URL,
-        gallery:
-          Array.isArray(item.gallery) && item.gallery.length > 0
-            ? item.gallery
-            : [FALLBACK_IMAGE_URL],
-        source: "EU" as const,
-
-        // Não existem para EU
-        category: undefined,
-        department: undefined,
-
-        material: item.details?.material,
-        adjective: item.details?.adjective,
-
-        hasDiscount: item.hasDiscount ?? false,
-        discountValue: item.discountValue ? parseFloat(item.discountValue) : 0,
-      }))
-    );
+    products.push(...euData);
   } else {
     console.warn("⚠️ Failed to fetch EU products:", euProducts.reason);
   }
