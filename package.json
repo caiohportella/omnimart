@@ -1,0 +1,18 @@
+{
+  "name": "omnimart",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --parallel --filter ./apps/frontend dev --filter ./apps/backend dev",
+    "build": "pnpm --filter ./apps/frontend build && pnpm --filter ./apps/backend build",
+    "lint": "pnpm --filter ./apps/frontend lint && pnpm --filter ./apps/backend lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "prettier": "^3.2.5"
+  }
+}

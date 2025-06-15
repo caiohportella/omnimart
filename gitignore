@@ -1,0 +1,30 @@
+
+# Node
+node_modules
+dist
+
+# Next.js
+.next
+out
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env*
+!.env.example
+
+# Data
+backend/data/orders.json
+
+# Editor folders
+.vscode
+.idea
