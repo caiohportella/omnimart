@@ -1,7 +1,24 @@
+<div align="center">
+  <h1>Omnimart</h1>
+</div>
 
-# 🛍️ Omnimart — Fullstack E-commerce App
+<div align="center">
+  <br />
+  
+  <img src="https://github.com/user-attachments/assets/542d77a9-4588-408c-865f-008884d509a6" alt="omnimart" />
 
-Omnimart is a fullstack e-commerce platform designed to simulate a real-world marketplace by integrating multiple suppliers. This project was developed as part of a technical challenge for a **Junior Fullstack Developer** position at Devnology.
+  <br />
+
+  <div>
+    <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
+    <img src="https://img.shields.io/badge/-Typescript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
+    <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
+    <img src="https://img.shields.io/badge/shadcn%2Fui-000?logo=shadcnui&logoColor=fff&style=for-the-badge" alt="shadcn" />
+    <img src="https://img.shields.io/badge/express.js-000000?logo=express&logoColor=fff&style=for-the-badge" alt="expressjs" />
+  </div>
+
+  <h3 align="center">Omnimart is a fullstack e-commerce platform designed to simulate a real-world marketplace by integrating multiple suppliers. This project was developed as part of a technical challenge for a junior position at Devnology.</h3>
+</div>
 
 ## 🏗️ Project Structure and Architecture
 
@@ -104,7 +121,7 @@ GET http://localhost:3333/filters
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/omnimart.git
+   git clone https://github.com/caiohportella/omnimart.git
    cd omnimart
    ```
 
