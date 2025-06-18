@@ -5,7 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { ProductTag } from "./ProductTag";
 
 import { toast } from "sonner";
-import { Product } from "packages/shared/types/domain";
+import { Product } from "@shared/types/domain";
 import { useCart } from "../context/CartContext";
 import {
   formatCurrency,
@@ -15,7 +15,6 @@ import {
 import { ProductCardCarousel } from "./ProductCardCarousel";
 import { FallbackImage } from "./FallbackImage";
 import { Button } from "./ui/button";
-import { SimilarProducts } from "./SimilarProducts";
 
 interface ProductDetailsProps {
   product: Product;

@@ -7,7 +7,7 @@ import React from "react";
 import { ProductCard } from "./ProductCard";
 import useEmblaCarousel from "embla-carousel-react";
 import { PrevButton, NextButton } from "./CarouselControls";
-import { Product } from "packages/shared/types/domain";
+import { Product } from "@shared/types/domain";
 import { usePrevNextButtons } from "../lib/hooks/useCarouselHooks";
 
 

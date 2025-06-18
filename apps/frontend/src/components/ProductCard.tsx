@@ -5,8 +5,7 @@ import React from "react";
 import { Badge } from "./ui/badge";
 import { ProductCardCarousel } from "./ProductCardCarousel";
 import { FallbackImage } from "./FallbackImage";
-import { ProductTag } from "./ProductTag";
-import { Product } from "packages/shared/types/domain";
+import { Product } from "@shared/types/domain";
 import {
   formatCurrency,
   formatPercentage,
@@ -19,7 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { FALLBACK_IMAGE_URL } from "packages/shared/constants";
+import { FALLBACK_IMAGE_URL } from "@shared/constants";
 import { ProductTagsGroup } from "./ProductTagsGroup";
 
 type ProductCardProps = {

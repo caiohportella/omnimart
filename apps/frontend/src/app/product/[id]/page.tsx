@@ -1,15 +1,14 @@
-import { getProductById } from "apps/frontend/src/actions/getProducts";
-import { ProductDetails } from "apps/frontend/src/components/ProductDetails";
-import { ProductDetailsSkeleton } from "apps/frontend/src/components/ProductsDetailsSkeleton";
 
+
+import { getProductById } from "@/actions/getProducts";
+import { ProductDetails } from "@/components/ProductDetails";
+import { ProductDetailsSkeleton } from "@/components/ProductsDetailsSkeleton";
 import React, { Suspense } from "react";
 
-interface ProductPageProps {
-  params: { id: string };
-}
+type paramsType = Promise<{ id: string }>;
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const { id } = await params;
+export default async function ProductPage(props: { params: paramsType }) {
+  const { id } = await props.params;
   const product = await getProductById(id);
 
   return (

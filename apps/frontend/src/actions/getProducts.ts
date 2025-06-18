@@ -1,6 +1,6 @@
 "use server";
 
-import { SERVER_ADDR } from "packages/shared/constants";
+import { SERVER_ADDR } from "@shared/constants";
 
 export async function getAllProducts() {
   const res = await fetch(`${SERVER_ADDR}/products`, {

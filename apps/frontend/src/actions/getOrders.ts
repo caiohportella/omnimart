@@ -1,7 +1,9 @@
 "use server";
 
-import { SERVER_ADDR } from "packages/shared/constants";
-import { Order } from "packages/shared/types/domain";
+import { SERVER_ADDR } from "@shared/constants";
+import { Order } from "@shared/types/domain";
+
+
 
 
 export async function getAllOrders(): Promise<Order[]> {

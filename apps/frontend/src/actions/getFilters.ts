@@ -1,4 +1,5 @@
-import { SERVER_ADDR } from "packages/shared/constants";
+import { SERVER_ADDR } from "@shared/constants";
+
 
 export async function getFilters() {
   const res = await fetch(`${SERVER_ADDR}/filters`, {

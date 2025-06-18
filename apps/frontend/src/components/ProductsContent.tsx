@@ -2,13 +2,12 @@
 
 import React from "react";
 
-import { Product, ProductFilter } from "packages/shared/types/domain";
+import { Product, ProductFilter } from "@shared/types/domain";
 
 import { useState, useMemo, useCallback } from "react";
 import { SidebarFilters } from "./SidebarFilters";
 import { PaginationControls } from "./PaginationControls";
 import { ProductCard } from "./ProductCard";
-import { SidebarFiltersSkeleton } from "./SidebarFiltersSkeleton";
 
 type ProductsContentProps = {
   allProducts: Product[];

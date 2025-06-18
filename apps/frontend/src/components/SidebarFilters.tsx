@@ -8,8 +8,9 @@ import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "./ui/drawer";
 import { Button } from "./ui/button";
-import { ProductFilter, SidebarFiltersProps } from "packages/shared/types/domain";
+
 import { useDebounce } from "../lib/hooks/useDebounce";
+import { ProductFilter, SidebarFiltersProps } from "@shared/types/domain";
 
 
 export function SidebarFilters({

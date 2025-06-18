@@ -10,7 +10,8 @@ import { useCart } from "../context/CartContext";
 import { formatCurrency, getProductPricing } from "../lib/utils";
 
 import { FallbackImage } from "./FallbackImage";
-import { CartItem } from "packages/shared/types/domain";
+import { CartItem } from "@shared/types/domain";
+
 
 interface CartItemCardProps {
   item: CartItem;

@@ -1,7 +1,8 @@
 "use server";
 
+import { SERVER_ADDR } from "@shared/constants";
 import { revalidatePath } from "next/cache";
-import { SERVER_ADDR } from "packages/shared/constants";
+
 
 type CreateOrderInput = {
   items: { productId: string; quantity: number }[];

@@ -1,9 +1,8 @@
 "use client";
 
-import { FALLBACK_IMAGE_URL } from "packages/shared/constants";
-import { CartItem, Product } from "packages/shared/types/domain";
 import React, { useEffect } from "react";
-
+import { getProductPricing } from "../lib/utils";
+import { CartItem, Product } from "@shared/types/domain";
 import {
   createContext,
   useContext,
@@ -12,7 +11,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { getProductPricing } from "../lib/utils";
+import { FALLBACK_IMAGE_URL } from "@shared/constants";
 
 interface CartContextType {
   cartItems: CartItem[];

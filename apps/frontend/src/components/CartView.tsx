@@ -8,7 +8,7 @@ import { ShoppingCart } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
-import { Product } from "packages/shared/types/domain";
+import { Product } from "@shared/types/domain";
 import { createOrderAction } from "../actions/cartActions";
 import { Button } from "./ui/button";
 import { CartItemCard } from "./CartItemCard";

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --require tsconfig-paths/register src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.ts"
+    "start": "node -r tsconfig-paths/register dist/server.js"
   },
   "keywords": [],
   "author": "",

@@ -1,9 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".", 
+
     "paths": {
-      "@/*": ["src/"]
+      "@/*": ["src/*"],
+      "@shared/*": ["../../packages/shared/*"]
     },
+    
     "jsx": "preserve",
     "plugins": [
       {
@@ -12,8 +16,9 @@
     ]
   },
   "include": [
-    "../../apps",
-    "../../packages",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
     ".next/types/**/*.ts"
   ],
   "exclude": [

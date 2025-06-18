@@ -2,6 +2,8 @@ import { getAllOrders } from "../../actions/getOrders";
 import { formatCurrency } from "../../lib/utils";
 import { FallbackImage } from "../../components/FallbackImage";
 
+export const dynamic = "force-dynamic";
+
 export const revalidate = 60;
 
 export default async function OrdersPage() {
@@ -43,29 +45,37 @@ export default async function OrdersPage() {
               </div>
 
               <div className="space-y-4">
-                {order.items.map((item) => (
-                  <div key={item.productId} className="flex gap-4">
-                    <div className="relative w-16 h-16 flex-shrink-0">
-                      <FallbackImage
-                        src={item.imageUrl}
-                        alt={item.name}
-                        fill
-                        className="object-cover rounded"
-                      />
+                {order.items.map(
+                  (item: {
+                    productId: string;
+                    imageUrl: string;
+                    name: string;
+                    price: number;
+                    quantity: number;
+                  }) => (
+                    <div key={item.productId} className="flex gap-4">
+                      <div className="relative w-16 h-16 flex-shrink-0">
+                        <FallbackImage
+                          src={item.imageUrl}
+                          alt={item.name}
+                          fill
+                          className="object-cover rounded"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium">{item.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {formatCurrency(item.price)} x {item.quantity}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold">
+                          {formatCurrency(item.price * item.quantity)}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {formatCurrency(item.price)} x {item.quantity}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold">
-                        {formatCurrency(item.price * item.quantity)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             </div>
           ))}

@@ -4,8 +4,8 @@ import React from "react";
 
 import { useState } from "react";
 import Image, { type ImageProps } from "next/image";
-import { FALLBACK_IMAGE_URL } from "packages/shared/constants";
 
+import { FALLBACK_IMAGE_URL } from "@shared/constants";
 import { Skeleton } from "./ui/skeleton";
 
 export function FallbackImage(props: ImageProps) {

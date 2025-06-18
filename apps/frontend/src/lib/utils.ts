@@ -1,5 +1,6 @@
+import { Product } from "@shared/types/domain";
 import { clsx, type ClassValue } from "clsx";
-import { Product } from "packages/shared/types/domain";
+
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {

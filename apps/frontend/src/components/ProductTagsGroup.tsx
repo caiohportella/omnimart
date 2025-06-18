@@ -1,4 +1,5 @@
-import { Product } from "packages/shared/types/domain";
+
+import { Product } from "@shared/types/domain";
 import { ProductTag } from "./ProductTag";
 
 
